@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <dv-border-box-1>dv-border-box-1</dv-border-box-1>
-    <el-card class="ml-12">
-      nihao
-    </el-card>
+  <div class="content">
+    <dv-full-screen-container>
+      <dv-border-box-3>
+        
+      </dv-border-box-3>
+    </dv-full-screen-container>
   </div>
 </template>
 
