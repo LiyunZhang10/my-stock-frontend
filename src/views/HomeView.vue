@@ -1,6 +1,6 @@
 <template>
   <div>
-   hello
+    <dv-border-box-1>dv-border-box-1</dv-border-box-1>
   </div>
 </template>
 
