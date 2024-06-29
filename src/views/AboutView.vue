@@ -1,82 +1,78 @@
 <template>
   <div>
-    <h1>股票价格和涨跌幅</h1>
-    <line-chart :chart-data="chartData" :options="chartOptions"></line-chart>
+    <h1>金价和汇率数据</h1>
+    <line-chart :chart-data="goldChartData" :options="chartOptions"></line-chart>
+    <line-chart :chart-data="usdchnChartData" :options="chartOptions"></line-chart>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { Line } from 'vue-chartjs';
 
-export default {
-  components: {
-    LineChart: {
-      extends: Line,
-      props: ['chartData', 'options'],
-      mounted() {
-        this.renderChart(this.chartData, this.options);
-      },
-      watch: {
-        chartData(newData) {
-          this.renderChart(newData, this.options);
-        }
-      }
+const goldChartData = ref({
+  labels: [],
+  datasets: [
+    {
+      label: '金价',
+      backgroundColor: '#f9d423',
+      data: []
+    },
+    {
+      label: '金价涨跌幅',
+      backgroundColor: '#e14eca',
+      data: []
     }
-  },
-  data() {
-    return {
-      chartData: {
-        labels: [],
-        datasets: [
-          {
-            label: '股票价格',
-            backgroundColor: '#f87979',
-            data: []
-          },
-          {
-            label: '涨跌幅',
-            backgroundColor: '#7acbf9',
-            data: []
-          }
-        ]
-      },
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    };
-  },
-  created() {
-    this.fetchData();
-    setInterval(this.fetchData, 6000); // 每6秒刷新一次数据
-  },
-  methods: {
-    async fetchData() {
-      try {
-        const response = await axios.get('http://localhost:8080/api/latest-data');
-        const data = response.data;
+  ]
+});
 
-        this.chartData.labels.push(new Date(data.timestamp).toLocaleTimeString());
-        this.chartData.datasets[0].data.push(data.price);
-        this.chartData.datasets[1].data.push(data.change_rate);
-
-        // 保持数据点数量不超过20个
-        if (this.chartData.labels.length > 20) {
-          this.chartData.labels.shift();
-          this.chartData.datasets[0].data.shift();
-          this.chartData.datasets[1].data.shift();
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+const usdchnChartData = ref({
+  labels: [],
+  datasets: [
+    {
+      label: '汇率',
+      backgroundColor: '#1f78b4',
+      data: []
+    },
+    {
+      label: '汇率涨跌幅',
+      backgroundColor: '#b2df8a',
+      data: []
     }
+  ]
+});
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false
+};
+
+const fetchData = async () => {
+  try {
+    const goldResponse = await axios.get('http://localhost:8080/api/latest-gold-data');
+    const usdchnResponse = await axios.get('http://localhost:8080/api/latest-usdchn-data');
+    updateChartData(goldChartData.value, goldResponse.data);
+    updateChartData(usdchnChartData.value, usdchnResponse.data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
   }
 };
-</script>
 
-<style scoped>
-h1 {
-  text-align: center;
-}
-</style>
+const updateChartData = (chartData, data) => {
+  chartData.labels.push(new Date(data.timestamp).toLocaleTimeString());
+  chartData.datasets[0].data.push(data.price);
+  chartData.datasets[1].data.push(data.changeRate);
+
+  if (chartData.labels.length > 50) {
+    chartData.labels.shift();
+    chartData.datasets[0].data.shift();
+    chartData.datasets[1].data.shift();
+  }
+};
+
+onMounted(() => {
+  fetchData();
+  setInterval(fetchData, 6000); // 每6秒刷新一次数据
+});
+</script>
