@@ -10,10 +10,15 @@ const routes = [
     component: () => import('../views/HomeView.vue')
   },
   {
-    path: '/chart',
-    name: 'chart',
-    component: () => import('../views/ChartView.vue')
+    path: '/UsdChnChart',
+    name: 'UsdChnChart',
+    component: () => import('../views/UsdChnChart.vue')
   },
+  {
+    path: '/GoldChart',
+    name: 'GoldChart',
+    component: () => import('../views/GoldChart.vue')
+  }
 ]
 
 const router = new VueRouter({

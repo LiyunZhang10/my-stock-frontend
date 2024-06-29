@@ -1,46 +1,55 @@
 <template>
-  <div class="content">
-    <dv-full-screen-container>
-      <dv-border-box-3>
-        <h1>最新数据</h1>
-        <div v-if="data">
-          <p>今开: {{ data.opening }}</p>
-          <p>昨收: {{ data.closed }}</p>
-          <p>最高: {{ data.highest }}</p>
-          <p>最低: {{ data.lowest }}</p>
-          <p>涨幅: {{ data.rise }}</p>
-          <p>涨跌: {{ data.sink }}</p>
-          <p>买入: {{ data.buy }}</p>
-          <p>卖出: {{ data.sale }}</p>
-          <p>时间: {{ data.timestamp }}</p>
+  <div class="home-container">
+    <el-container>
+      <el-header class="bg-blue-500 text-white text-center py-6">
+        <h1 class="text-4xl font-bold">欢迎来到数据可视化平台</h1>
+      </el-header>
+      <el-main>
+        <div class="container mx-auto py-10">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                  <span class="text-2xl font-semibold">金价数据</span>
+                </div>
+                <div class="text-center">
+                  <p class="mb-4">查看最新的金价数据和趋势。</p>
+                  <el-button type="primary" @click="navigateTo('GoldChart')">查看金价数据</el-button>
+                </div>
+              </el-card>
+            </el-col>
+            <el-col :span="12">
+              <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                  <span class="text-2xl font-semibold">汇率数据</span>
+                </div>
+                <div class="text-center">
+                  <p class="mb-4">查看最新的汇率数据和趋势。</p>
+                  <el-button type="primary" @click="navigateTo('UsdChnChart')">查看汇率数据</el-button>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
         </div>
-      </dv-border-box-3>
-    </dv-full-screen-container>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  data() {
-    return {
-      data: null
-    };
-  },
-  created() {
-    this.fetchData();
-    setInterval(this.fetchData, 5000); // 每5秒刷新一次数据
-  },
+  name: 'HomeView',
   methods: {
-    async fetchData() {
-      try {
-        const response = await axios.get('http://localhost:8080/api/latest-data');
-        this.data = response.data;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    navigateTo(routeName) {
+      this.$router.push({ name: routeName });
     }
   }
 };
 </script>
+
+<style scoped>
+.home-container {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+}
+</style>
