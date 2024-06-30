@@ -54,11 +54,8 @@ export default {
         const { data } = await axios.get(
           'http://localhost:8080/api/nvda-stocks'
         );
-        const reversedData = data.reverse();
-        stockChartData.dates = reversedData.map((item) =>
-          formatDate(item.date)
-        );
-        stockChartData.prices = reversedData.map((item) => [
+        stockChartData.dates = data.map((item) => formatDate(item.date));
+        stockChartData.prices = data.map((item) => [
           item.openPrice,
           item.closePrice,
           item.lowPrice,
@@ -86,8 +83,8 @@ export default {
           axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } },
         },
         grid: {
-          left: '10%',
-          right: '10%',
+          left: '3%',
+          right: '3%',
           bottom: '3%',
           top: '10%',
           containLabel: true,
@@ -104,14 +101,14 @@ export default {
         yAxis: {
           scale: true,
           axisLabel: {
-            margin: 30,
+            margin: 20,
           },
         },
         series: [
           {
             name: 'K线图',
             type: 'candlestick',
-            data: prices.reverse(), // 确保数据顺序正确
+            data: prices, // 不再需要 reverse
             itemStyle: {
               color: '#ec0000',
               color0: '#00da3c',

@@ -5,6 +5,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    redirect: '/home', // 默认重定向到 /home
+  },
+  {
     path: '/home',
     name: 'home',
     component: () => import('../views/HomeView.vue')

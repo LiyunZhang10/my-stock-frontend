@@ -105,7 +105,7 @@ export default {
           data: ['黄金价格', '涨跌幅'],
           top: 30,
         },
-        grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+        grid: { left: '3%', right: '3%', bottom: '3%', containLabel: true },
         xAxis: {
           type: 'category',
           boundaryGap: false,

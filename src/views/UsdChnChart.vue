@@ -103,7 +103,7 @@ export default {
           axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } },
         },
         legend: { data: ['汇率', '涨跌幅'], top: 30 },
-        grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+        grid: { left: '3%', right: '3%', bottom: '3%', containLabel: true },
         xAxis: {
           type: 'category',
           boundaryGap: false,
@@ -163,7 +163,7 @@ export default {
     onMounted(() => {
       chart.value = echarts.init(usdchnChart.value);
       fetchUsdChnData();
-      timer = setInterval(fetchUsdChnData, 120000);
+      timer = setInterval(fetchUsdChnData, 60000);
     });
 
     onUnmounted(() => {

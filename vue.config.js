@@ -11,4 +11,7 @@ module.exports = defineConfig({
       },
     },
   },
+  devServer: {
+    port: 8083, // 指定端口号
+  },
 })
