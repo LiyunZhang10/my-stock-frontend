@@ -3,10 +3,10 @@
     <el-card class="w-full h-full shadow-lg">
       <template #header>
         <div class="flex justify-between items-center">
-          <span class="text-3xl font-bold text-gray-800"
-            >COMEX黄金 &nbsp&nbsp&nbsp&nbsp
-            <span class="text-2xl">GC00Y &nbsp&nbsp&nbsp&nbsp</span
-            ><span class="text-xl">交易所：CME金属期货</span>
+          <span class="text-3xl font-bold text-gray-800">
+            COMEX黄金 &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="text-2xl">GC00Y &nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="text-xl">交易所：CME金属期货</span>
           </span>
           <el-button
             type="primary"
