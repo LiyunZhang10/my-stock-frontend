@@ -87,9 +87,9 @@ export default {
       }
     };
 
-    onMounted(() => {
-      fetchUsdChnData();
-      setInterval(fetchUsdChnData, 6000);
+    onMounted( async () => {
+      await fetchUsdChnData();
+      setInterval(fetchUsdChnData, 600000);
     });
 
     return {

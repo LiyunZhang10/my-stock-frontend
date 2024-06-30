@@ -4,8 +4,10 @@
       <template #header>
         <div class="flex justify-between items-center">
           <span class="text-3xl font-bold text-gray-800"
-            >金价和变化率趋势图</span
-          >
+            >COMEX黄金 &nbsp&nbsp&nbsp&nbsp
+            <span class="text-2xl">GC00Y &nbsp&nbsp&nbsp&nbsp</span
+            ><span class="text-xl">交易所：CME金属期货</span>
+          </span>
           <el-button
             type="primary"
             icon="el-icon-back"
@@ -15,10 +17,7 @@
           >
         </div>
       </template>
-      <div
-        ref="goldChart"
-        style="width: 100%; height: 600px"
-        class="w-full h-[600px]"></div>
+      <div ref="goldChart" style="width: 100%; height: 575px"></div>
       <p class="text-sm text-gray-500 mt-4 text-center">该数据来源自东方财富</p>
     </el-card>
   </div>
@@ -61,14 +60,14 @@ export default {
         const chart = echarts.init(goldChart.value);
         const option = {
           title: {
-            text: '金价和变化率',
+            text: '黄金价格与涨跌幅',
             left: 'center',
           },
           tooltip: {
             trigger: 'axis',
           },
           legend: {
-            data: ['金价', '变化率'],
+            data: ['黄金价格', '涨跌幅'],
             left: 'left',
           },
           xAxis: {
@@ -78,18 +77,18 @@ export default {
           yAxis: [
             {
               type: 'value',
-              name: '金价',
+              name: '黄金价格',
               position: 'left',
             },
             {
               type: 'value',
-              name: '变化率',
+              name: '涨跌幅',
               position: 'right',
             },
           ],
           series: [
             {
-              name: '金价',
+              name: '黄金价格',
               type: 'line',
               data: goldChartData.value.prices,
               yAxisIndex: 0,
@@ -99,7 +98,7 @@ export default {
               },
             },
             {
-              name: '变化率',
+              name: '涨跌幅',
               type: 'line',
               data: goldChartData.value.changeRates,
               yAxisIndex: 1,
@@ -125,10 +124,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#goldChart {
-  width: 100%;
-  height: 600px;
-}
-</style>
