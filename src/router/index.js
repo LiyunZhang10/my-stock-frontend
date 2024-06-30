@@ -18,6 +18,11 @@ const routes = [
     path: '/GoldChart',
     name: 'GoldChart',
     component: () => import('../views/GoldChart.vue')
+  },
+  {
+    path: '/nvda-stock',
+    name: 'NvdaStock',
+    component: () => import('../views/NvdaStock.vue')
   }
 ]
 

@@ -13,7 +13,8 @@
             icon="el-icon-back"
             @click="$router.push('/home')"
             class="bg-blue-500 hover:bg-blue-600"
-          >返回首页</el-button>
+            >返回首页</el-button
+          >
         </div>
       </template>
       <div ref="goldChart" style="width: 100%; height: 575px"></div>
@@ -40,23 +41,29 @@ export default {
 
     const formatTimestamp = (timestamp) => {
       const date = new Date(timestamp);
-      return date.toLocaleString('zh-CN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      }).replace(/\//g, '-');
+      return date
+        .toLocaleString('zh-CN', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        })
+        .replace(/\//g, '-');
     };
 
     const fetchGoldData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:8080/api/latest-gold-data');
+        const { data } = await axios.get(
+          'http://localhost:8080/api/latest-gold-data'
+        );
         const reversedData = data.reverse();
-        goldChartData.labels = reversedData.map(item => formatTimestamp(item.timestamp));
-        goldChartData.prices = reversedData.map(item => item.price);
-        goldChartData.changeRates = reversedData.map(item => item.changeRate);
+        goldChartData.labels = reversedData.map((item) =>
+          formatTimestamp(item.timestamp)
+        );
+        goldChartData.prices = reversedData.map((item) => item.price);
+        goldChartData.changeRates = reversedData.map((item) => item.changeRate);
         updateChart();
       } catch (error) {
         console.error('Error fetching gold data:', error);
@@ -69,7 +76,7 @@ export default {
       const padding = (max - min) * 0.1;
       return {
         min: Math.max(minBase, Math.floor((min - padding) * 2) / 2),
-        max: Math.min(maxBase, Math.ceil((max + padding) * 2) / 2)
+        max: Math.min(maxBase, Math.ceil((max + padding) * 2) / 2),
       };
     };
 
@@ -78,27 +85,34 @@ export default {
 
       const { labels, prices, changeRates } = goldChartData;
       const priceRange = calculateAxisRange(prices, 0, Infinity);
-      const changeRateRange = calculateAxisRange(changeRates, -Infinity, Infinity);
+      const changeRateRange = calculateAxisRange(
+        changeRates,
+        -Infinity,
+        Infinity
+      );
 
       const option = {
         title: {
           text: '黄金价格实时走势(面积图)',
           left: 'center',
-          textStyle: { color: '#333', fontSize: 20 }
+          textStyle: { color: '#333', fontSize: 20 },
         },
         tooltip: {
           trigger: 'axis',
-          axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } }
+          axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } },
         },
-        legend: { 
+        legend: {
           data: ['黄金价格', '涨跌幅'],
-          top: 30
+          top: 30,
         },
         grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
-        xAxis: { 
-          type: 'category', 
-          boundaryGap: false, 
-          data: labels 
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: labels,
+          axisLabel: {
+            margin: 20,
+          },
         },
         yAxis: [
           {
@@ -107,7 +121,7 @@ export default {
             position: 'left',
             min: priceRange.min,
             max: priceRange.max,
-            axisLabel: { formatter: '{value}' }
+            axisLabel: { formatter: '{value}' },
           },
           {
             type: 'value',
@@ -115,8 +129,8 @@ export default {
             position: 'right',
             min: changeRateRange.min,
             max: changeRateRange.max,
-            axisLabel: { formatter: '{value}%' }
-          }
+            axisLabel: { formatter: '{value}%' },
+          },
         ],
         series: [
           {
@@ -131,9 +145,9 @@ export default {
             areaStyle: {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 { offset: 0, color: 'rgba(249, 212, 35, 0.5)' },
-                { offset: 1, color: 'rgba(249, 212, 35, 0)' }
-              ])
-            }
+                { offset: 1, color: 'rgba(249, 212, 35, 0)' },
+              ]),
+            },
           },
           {
             name: '涨跌幅',
@@ -147,11 +161,11 @@ export default {
             areaStyle: {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 { offset: 0, color: 'rgba(225, 78, 202, 0.5)' },
-                { offset: 1, color: 'rgba(225, 78, 202, 0)' }
-              ])
-            }
-          }
-        ]
+                { offset: 1, color: 'rgba(225, 78, 202, 0)' },
+              ]),
+            },
+          },
+        ],
       };
       chart.value.setOption(option);
     };
@@ -170,6 +184,6 @@ export default {
     });
 
     return { goldChart };
-  }
+  },
 };
 </script>
