@@ -81,7 +81,7 @@ export default {
 
       const option = {
         title: {
-          text: '美元离岸人民币实时走势',
+          text: '美元离岸人民币实时走势(折线图)',
           left: 'center',
           textStyle: { color: '#333', fontSize: 20 }
         },
