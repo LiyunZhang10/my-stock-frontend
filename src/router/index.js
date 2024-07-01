@@ -27,7 +27,12 @@ const routes = [
     path: '/nvda-stock',
     name: 'NvdaStock',
     component: () => import('../views/NvdaStock.vue')
-  }
+  },
+  {
+    path: '/sgdcnyc',
+    name: 'SgdcnycData',
+    component: () => import('../views/SgdcnycData.vue')
+  },
 ]
 
 const router = new VueRouter({
