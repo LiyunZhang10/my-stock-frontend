@@ -2,10 +2,10 @@
   <div class="min-h-screen bg-gray-100 p-4">
     <el-card class="w-full h-full shadow-lg">
       <template #header>
-        <div class="flex justify-between items-center">
-          <span class="text-3xl font-bold text-gray-800">
+        <div class="flex justify-between items-center ml-20">
+          <span class="text-4xl font-bold text-gray-800">
             美元离岸人民币 &nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="text-2xl">USDCNH &nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="text-3xl">USDCNH &nbsp;&nbsp;&nbsp;&nbsp;</span>
           </span>
           <el-button
             type="primary"

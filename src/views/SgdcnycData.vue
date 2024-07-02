@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-100 p-4">
-    <el-card class="w-full h-full shadow-lg mt-5">
+    <el-card class="w-full h-full shadow-lg">
       <template #header>
         <div class="flex justify-between items-center">
           <span class="text-4xl font-bold text-gray-800 ml-20">
@@ -43,7 +43,7 @@
           <dv-decoration-10 style="width: 100%; height: 5px" />
           <div class="flex justify-between mt-8">
             <div class="w-1/3 flex flex-col items-center">
-              <h3 class="text-3xl font-bold mb-8 text-gray-700">
+              <h3 class="text-4xl font-bold mb-10 text-gray-700">
                 人民币中间价
               </h3>
               <dv-capsule-chart
@@ -53,7 +53,7 @@
             </div>
 
             <div class="w-1/3 flex flex-col items-center">
-              <h3 class="text-3xl font-bold mb-8 text-gray-700">中间价</h3>
+              <h3 class="text-4xl font-bold mb-10 text-gray-700">新加坡人民币实时中间价</h3>
               <dv-decoration-9
                 class="text-6xl text-blue-500"
                 style="width: 300px; height: 300px"
@@ -63,7 +63,7 @@
             </div>
 
             <div class="w-1/3 flex flex-col items-center">
-              <h3 class="text-3xl font-bold mb-8 text-gray-700">涨跌幅</h3>
+              <h3 class="text-4xl font-bold mb-10 text-gray-700">涨跌幅</h3>
               <dv-water-level-pond
                 :config="changeAmplitudeConfig"
                 style="width: 300px; height: 300px" />
