@@ -21,7 +21,6 @@
     </el-card>
   </div>
 </template>
-
 <script>
 import { ref, onMounted, onUnmounted, reactive } from 'vue';
 import axios from 'axios';
@@ -71,13 +70,22 @@ export default {
       }
     };
 
-    const calculateAxisRange = (values, minBase, maxBase) => {
+    const calculateAxisRange = (values, minBase, maxBase, desiredTicks = 5) => {
       const min = Math.min(...values);
       const max = Math.max(...values);
-      const padding = (max - min) * 0.1;
+      const range = max - min;
+
+      let interval = range / (desiredTicks - 1);
+      const magnitude = Math.pow(10, Math.floor(Math.log10(interval)));
+      interval = Math.ceil(interval / magnitude) * magnitude;
+
+      const axisMin = Math.floor(min / interval) * interval;
+      const axisMax = Math.ceil(max / interval) * interval;
+
       return {
-        min: Math.max(minBase, Math.floor((min - padding) * 2) / 2),
-        max: Math.min(maxBase, Math.ceil((max + padding) * 2) / 2),
+        min: Math.max(minBase, axisMin),
+        max: Math.min(maxBase, axisMax),
+        interval: interval,
       };
     };
 
@@ -85,11 +93,12 @@ export default {
       if (!chart.value) return;
 
       const { prices, changeRates, dates } = usdchnChartData;
-      const priceRange = calculateAxisRange(prices, 6, 9);
+      const priceRange = calculateAxisRange(prices, 6, 9, 5);
       const changeRateRange = calculateAxisRange(
         changeRates,
         -Infinity,
-        Infinity
+        Infinity,
+        5
       );
 
       const option = {
@@ -119,7 +128,7 @@ export default {
             position: 'left',
             min: priceRange.min,
             max: priceRange.max,
-            interval: 0.1,
+            interval: priceRange.interval,
             axisLabel: { formatter: '{value}' },
           },
           {
@@ -128,7 +137,7 @@ export default {
             position: 'right',
             min: changeRateRange.min,
             max: changeRateRange.max,
-            interval: 0.5,
+            interval: changeRateRange.interval,
             axisLabel: { formatter: '{value}%' },
           },
         ],

@@ -3469,6 +3469,11 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.11.tgz"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
+gsap@^1.20.4:
+  version "1.20.6"
+  resolved "https://registry.npmmirror.com/gsap/-/gsap-1.20.6.tgz"
+  integrity sha512-XM2BdaoJP23KSg/u4FnsqVI+HI7/jcVZbHFU8JfzNLvPCF08yf4a/WRFP/lQ5gbWydpL7g/YKjPe/PMpw+5WJQ==
+
 gzip-size@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmmirror.com/gzip-size/-/gzip-size-6.0.0.tgz"
@@ -5992,6 +5997,13 @@ vue-chartjs@^5.3.1:
   version "5.3.1"
   resolved "https://registry.npmmirror.com/vue-chartjs/-/vue-chartjs-5.3.1.tgz"
   integrity sha512-rZjqcHBxKiHrBl0CIvcOlVEBwRhpWAVf6rDU3vUfa7HuSRmGtCslc0Oc8m16oAVuk0erzc1FCtH1VCriHsrz+A==
+
+vue-flip-countdown@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.npmmirror.com/vue-flip-countdown/-/vue-flip-countdown-0.0.3.tgz"
+  integrity sha512-0kMZBNXFNGOZm2nMKz9GHETvWxScuTBt2Fb/9iLmDUlb/qc0BrAcJpmOoIyCCGbe4dTmY6H1SjZszjlwEkmRGA==
+  dependencies:
+    gsap "^1.20.4"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"

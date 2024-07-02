@@ -1,18 +1,17 @@
 <template>
   <div class="min-h-screen bg-gray-100 p-4">
-    <el-card class="w-full h-full shadow-lg">
+    <el-card class="w-full h-full shadow-lg mt-5">
       <template #header>
         <div class="flex justify-between items-center">
-          <span class="text-3xl font-bold text-gray-800">
-            新加坡元兑人民币 &nbsp;&nbsp;
-            <span class="text-2xl">SGDCNYC &nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <span class="text-xl">交易币种：人民币</span>
+          <span class="text-4xl font-bold text-gray-800 ml-20">
+            新加坡元人民币中间价 &nbsp;&nbsp;
+            <span class="text-3xl">SGDCNYC &nbsp;&nbsp;&nbsp;&nbsp;</span>
           </span>
           <el-button
             type="primary"
             icon="el-icon-back"
             @click="$router.push('/home')"
-            class="bg-blue-500 hover:bg-blue-600"
+            class="bg-blue-500 hover:bg-blue-600 mr-20"
             >返回首页</el-button
           >
         </div>
@@ -26,33 +25,54 @@
       </div>
 
       <template v-else>
-        <div class="grid grid-cols-2 gap-8 mb-6">
-          <dv-border-box-13>
-            <h3 class="text-xl font-bold mb-4 text-gray-700">最新汇率</h3>
-            <dv-decoration-8 style="width: 100%; height: 50px" />
-            <dv-digital-flop :config="latestRateConfig" />
-          </dv-border-box-13>
-          <dv-border-box-13>
-            <h3 class="text-xl font-bold mb-4 text-gray-700">变化幅度</h3>
+        <div class="ml-20 mr-20">
+          <div class="flex justify-center items-center mb-20">
+            <dv-decoration-8 style="width: 500px; height: 50px" />
+            <div>
+              <dv-decoration-5 style="width: 600px; height: 60px" :dur="5" />
+              <div class="flex justify-center mt-5">
+                <div class="text-4xl font-bold text-blue-600 mt-2">
+                  北京时间： {{ currentTime }}
+                </div>
+              </div>
+            </div>
             <dv-decoration-8
               :reverse="true"
-              style="width: 100%; height: 50px" />
-            <dv-water-level-pond :config="changeAmplitudeConfig" />
-          </dv-border-box-13>
-          <dv-border-box-13>
-            <h3 class="text-xl font-bold mb-4 text-gray-700">变化金额</h3>
-            <dv-decoration-10 style="width: 100%; height: 5px" />
-            <dv-digital-flop :config="changeAmountConfig" />
-          </dv-border-box-13>
-          <dv-border-box-13>
-              <dv-decoration-2 style="width: 90%; height: 5px" />
-              <h3 class="text-xl font-bold mb-4 text-gray-700">汇率趋势</h3>
-              <dv-water-level-pond :config="waterLevelConfig" />
-          </dv-border-box-13>
+              style="width: 500px; height: 50px" />
+          </div>
+          <dv-decoration-10 style="width: 100%; height: 5px" />
+          <div class="flex justify-between mt-8">
+            <div class="w-1/3 flex flex-col items-center">
+              <h3 class="text-3xl font-bold mb-8 text-gray-700">
+                人民币中间价
+              </h3>
+              <dv-capsule-chart
+                class="font-bold text-indigo-500"
+                :config="medianPriceConfig"
+                style="width: 300px; height: 300px" />
+            </div>
+
+            <div class="w-1/3 flex flex-col items-center">
+              <h3 class="text-3xl font-bold mb-8 text-gray-700">中间价</h3>
+              <dv-decoration-9
+                class="text-6xl text-blue-500"
+                style="width: 300px; height: 300px"
+                :dur="5"
+                >{{ latestRateConfig.number }}</dv-decoration-9
+              >
+            </div>
+
+            <div class="w-1/3 flex flex-col items-center">
+              <h3 class="text-3xl font-bold mb-8 text-gray-700">涨跌幅</h3>
+              <dv-water-level-pond
+                :config="changeAmplitudeConfig"
+                style="width: 300px; height: 300px" />
+            </div>
+          </div>
         </div>
       </template>
-      <p class="text-sm text-gray-500 mt-4 text-center">
-        该数据来源自实时汇率API
+      <p class="text-sm text-gray-500 mt-20 text-center">
+        该数据来源自东方财富
       </p>
     </el-card>
   </div>
@@ -69,109 +89,63 @@ export default {
       loading: true,
       error: null,
       intervalId: null,
+      currentDate: new Date(),
     };
   },
   computed: {
+    currentTime() {
+      return this.formatDate(this.currentDate);
+    },
     latestData() {
       return this.rateData[0] || {};
     },
     latestRateConfig() {
       const value = parseFloat(this.latestData.medianPrice) || 0;
       return {
-        number: [value],
-        content: '{nt}',
-        style: {
-          fontSize: '48px',
-          fill: '#3498db',
-        },
-        toFixed: 4,
+        number: value.toFixed(4),
       };
     },
     changeAmplitudeConfig() {
       const value = parseFloat(this.latestData.changeAmplitude) || 0;
       return {
         data: [value],
-        shape: 'round',
-        waveHeight: 0.5,
-        waveNum: 3,
+        waveHeight: 150,
+        waveNum: 2,
         waveOpacity: 0.4,
-        formatter: '{value}%',
-        borderWidth: 2,
-        borderColor: value < 0 ? '#e74c3c' : '#2ecc71',
         textStyle: {
-          fontSize: 28,
-          fontWeight: 'bold',
-          color: value < 0 ? '#e74c3c' : '#2ecc71',
+          fontSize: 25,
+          fill: '#fff',
         },
-        colors:
-          value < 0
-            ? ['#e74c3c', '#ec7063', '#f1948a']
-            : ['#2ecc71', '#58d68d', '#82e0aa'],
-        backgroundColor: '#ecf0f1',
+        borderWidth: 3,
+        borderGap: 3,
+        lineDash: [5, 5],
       };
     },
-    changeAmountConfig() {
-      const value = parseFloat(this.latestData.changeAmount) || 0;
+    medianPriceConfig() {
       return {
-        number: [value],
-        content: '{nt}',
-        style: {
-          fontSize: '48px',
-          fill: value < 0 ? '#e74c3c' : '#2ecc71',
-        },
-        toFixed: 4,
-      };
-    },
-    waterLevelConfig() {
-      if (this.rateData.length === 0) {
-        return {
-          data: [0],
-          shape: 'round',
-          waveHeight: 0.6,
-          waveNum: 3,
-          waveOpacity: 0.4,
-          formatter: '{value}',
-          borderWidth: 2,
-          borderColor: '#3498db',
-          textStyle: {
-            fontSize: 28,
-            fontWeight: 'bold',
-            color: '#3498db',
+        data: [
+          {
+            name: '加元',
+            value: 5.2237,
           },
-          colors: ['#3498db', '#2980b9', '#1abc9c'],
-          backgroundColor: '#ecf0f1',
-        };
-      }
-
-      const latestPrice = parseFloat(this.latestData.medianPrice) || 0;
-      const minPrice = Math.min(
-        ...this.rateData.map((d) => parseFloat(d.medianPrice) || 0)
-      );
-      const maxPrice = Math.max(
-        ...this.rateData.map((d) => parseFloat(d.medianPrice) || 0)
-      );
-      const range = maxPrice - minPrice;
-      const percentage =
-        range !== 0 ? ((latestPrice - minPrice) / range) * 100 : 0;
-
-      return {
-        data: [percentage],
-        shape: 'round',
-        waveHeight: 0.6,
-        waveNum: 3,
-        waveOpacity: 0.4,
-        toFixed: 2,
-        formatter: '{value}',
-        borderWidth: 2,
-        borderColor: '#3498db',
-        textStyle: {
-          fontSize: 28,
-          fontWeight: 'bold',
-          color: '#3498db',
-        },
-        colors: ['#3498db', '#2980b9', '#1abc9c'],
-        backgroundColor: '#ecf0f1',
-        value: latestPrice.toFixed(4),
+          {
+            name: '欧元',
+            value: 7.6892,
+          },
+          {
+            name: '港币',
+            value: 0.9127,
+          },
+          {
+            name: '英镑',
+            value: 9.0582,
+          },
+          {
+            name: '美元',
+            value: 7.1291,
+          },
+        ],
+        showValue: true,
       };
     },
   },
@@ -200,14 +174,33 @@ export default {
         this.loading = false;
       }
     },
+    updateCurrentTime() {
+      this.currentDate = new Date();
+    },
+    formatDate(date) {
+      const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      };
+      return date.toLocaleString('zh-CN', options).replace(/\//g, '-');
+    },
   },
   created() {
     this.fetchData();
     this.intervalId = setInterval(this.fetchData, 60000);
+    this.timeIntervalId = setInterval(this.updateCurrentTime, 1000);
   },
   beforeDestroy() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
+    }
+    if (this.timeIntervalId) {
+      clearInterval(this.timeIntervalId);
     }
   },
 };
