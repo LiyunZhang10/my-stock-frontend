@@ -93,8 +93,10 @@
 2. 安装依赖：
     ```npm install```
 3. 运行开发服务器：
-    ```cd my-stock-frontend
-    npm run serve```
+    ```
+    cd my-stock-frontend
+       npm run serve
+    ```
 4. 构建生产版本：
     ```npm run build```
 
