@@ -108,10 +108,15 @@
 
 本项目采用 MIT 许可证。详情请见 [LICENSE](LICENSE) 文件。
 
+## 📞 联系方式
+
+项目维护者：张力匀 - 743478304@qq.com
+
+项目链接：[https://github.com/LiyunZhang10/my-stock-frontend](https://github.com/LiyunZhang10/my-stock-frontend)
+
 ## 🙏 致谢
 
 - 感谢 东方财富 提供的数据支持
-- 特别感谢所有为本项目做出贡献的开发者
 
 ---
 
