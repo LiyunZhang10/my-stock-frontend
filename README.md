@@ -90,3 +90,33 @@
 
 1. 克隆仓库：
        git clone https://github.com/LiyunZhang10/my-stock-frontend.git
+   2. 安装依赖：
+npm install
+3. 运行开发服务器：
+cd my-stock-frontend
+npm run serve
+4. 构建生产版本：
+ npm run build
+
+## 🤝 贡献
+
+我们欢迎任何形式的贡献！如果您有任何想法或建议，请：
+
+1. Fork 本仓库
+2. 创建您的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启一个 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证。详情请见 [LICENSE](LICENSE) 文件。
+
+## 🙏 致谢
+
+- 感谢 东方财富 提供的数据支持
+- 特别感谢所有为本项目做出贡献的开发者
+
+---
+
+通过这个项目，我们不仅展示了如何构建一个现代化的数据可视化平台，还展现了Vue生态系统的强大能力。无论您是金融专业人士还是技术爱好者，我们相信这个平台都能为您带来价值。让我们一起探索数据的魅力，洞察金融市场的脉动！
