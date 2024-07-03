@@ -88,23 +88,11 @@
 
 ## 🛠 如何开始
 
-1. 克隆仓库：
-   
-   ```git clone https://github.com/LiyunZhang10/my-stock-frontend.git
-   ```
-   
-3. 安装依赖：
-   
-    ```npm install```
-   
-4. 运行开发服务器：
-    ```
-    cd my-stock-frontend
-    npm run serve
-    ```
+1. 克隆仓库： `git clone https://github.com/LiyunZhang10/my-stock-frontend.git`
+3. 安装依赖： `npm install`
+4. 运行开发服务器： `npm run serve`
     
-5. 构建生产版本：
-    ```npm run build```
+5. 构建生产版本： `npm run build`
 
 ## 🤝 贡献
 
