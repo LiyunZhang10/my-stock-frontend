@@ -89,14 +89,14 @@
 ## 🛠 如何开始
 
 1. 克隆仓库：
-       git clone https://github.com/LiyunZhang10/my-stock-frontend.git
-   2. 安装依赖：
-npm install
+    git clone https://github.com/LiyunZhang10/my-stock-frontend.git
+2. 安装依赖：
+    npm install
 3. 运行开发服务器：
-cd my-stock-frontend
-npm run serve
+    cd my-stock-frontend
+    npm run serve
 4. 构建生产版本：
- npm run build
+    npm run build
 
 ## 🤝 贡献
 
