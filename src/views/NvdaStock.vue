@@ -27,6 +27,7 @@
 import { ref, onMounted, reactive } from 'vue';
 import axios from 'axios';
 import * as echarts from 'echarts';
+import { getLocalhostApiUrl, getPublicApiUrl } from '@/utils/api';
 
 export default {
   name: 'NvdaStock',
@@ -51,8 +52,8 @@ export default {
 
     const fetchStockData = async () => {
       try {
-        // const { data } = await axios.get('http://zhangliyun10.gnway.cc:8000/api/nvda-stocks');
-        const { data } = await axios.get('http://localhost:8080/api/nvda-stocks');
+        // const { data } = await axios.get(getPublicApiUrl('nvda-stocks'));
+        const { data } = await axios.get(getLocalhostApiUrl('nvda-stocks'));
         stockChartData.dates = data.map((item) => formatDate(item.date));
         stockChartData.prices = data.map((item) => [
           item.openPrice,

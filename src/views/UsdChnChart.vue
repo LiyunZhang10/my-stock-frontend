@@ -25,6 +25,7 @@
 import { ref, onMounted, onUnmounted, reactive } from 'vue';
 import axios from 'axios';
 import * as echarts from 'echarts';
+import { getLocalhostApiUrl, getPublicApiUrl } from '@/utils/api';
 
 export default {
   name: 'UsdChnChart',
@@ -53,8 +54,8 @@ export default {
 
     const fetchUsdChnData = async () => {
       try {
-      //  const { data } = await axios.get('http://zhangliyun10.gnway.cc:8000/api/latest-usdchn-data');
-        const { data } = await axios.get('http://localhost:8080/api/latest-usdchn-data');
+      // const { data } = await axios.get(getPublicApiUrl('latest-usdchn-data'));
+        const { data } = await axios.get(getLocalhostApiUrl('latest-usdchn-data'));
         const reversedData = data.reverse();
         usdchnChartData.dates = reversedData.map((item) =>
           formatTimestamp(item.timestamp)
