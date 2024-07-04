@@ -51,9 +51,8 @@ export default {
 
     const fetchStockData = async () => {
       try {
-        const { data } = await axios.get(
-          'http://localhost:8080/api/nvda-stocks'
-        );
+        // const { data } = await axios.get('http://zhangliyun10.gnway.cc:8000/api/nvda-stocks');
+        const { data } = await axios.get('http://localhost:8080/api/nvda-stocks');
         stockChartData.dates = data.map((item) => formatDate(item.date));
         stockChartData.prices = data.map((item) => [
           item.openPrice,

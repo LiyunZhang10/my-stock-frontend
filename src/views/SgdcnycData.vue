@@ -53,7 +53,9 @@
             </div>
 
             <div class="w-1/3 flex flex-col items-center">
-              <h3 class="text-4xl font-bold mb-10 text-gray-700">新加坡人民币实时中间价</h3>
+              <h3 class="text-4xl font-bold mb-10 text-gray-700">
+                新加坡人民币实时中间价
+              </h3>
               <dv-decoration-9
                 class="text-6xl text-blue-500"
                 style="width: 300px; height: 300px"
@@ -154,9 +156,8 @@ export default {
       try {
         this.loading = true;
         this.error = null;
-        const response = await axios.get(
-          'http://localhost:8080/api/latest-sgdcnyc-data'
-        );
+      //  const response = await axios.get('http://zhangliyun10.gnway.cc:8000/api/latest-sgdcnyc-data');
+        const response = await axios.get('http://localhost:8080/api/latest-sgdcnyc-data');
         if (Array.isArray(response.data) && response.data.length > 0) {
           this.rateData = response.data.map((item) => ({
             ...item,

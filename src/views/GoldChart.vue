@@ -55,9 +55,8 @@ export default {
 
     const fetchGoldData = async () => {
       try {
-        const { data } = await axios.get(
-          'http://localhost:8080/api/latest-gold-data'
-        );
+        // const { data } = await axios.get('http://zhangliyun10.gnway.cc:8000/api/latest-gold-data');
+        const { data } = await axios.get('http://localhost:8080/api/latest-gold-data');
         const reversedData = data.reverse();
         goldChartData.labels = reversedData.map((item) =>
           formatTimestamp(item.timestamp)
