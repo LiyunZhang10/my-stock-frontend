@@ -11,9 +11,9 @@
             type="primary"
             icon="el-icon-back"
             @click="$router.push('/home')"
-            class="bg-blue-500 hover:bg-blue-600"
-            >返回首页</el-button
-          >
+            class="bg-blue-500 hover:bg-blue-600">
+            返回首页
+          </el-button>
         </div>
       </template>
       <div ref="usdchnChart" style="width: 100%; height: 575px"></div>
@@ -75,8 +75,13 @@ export default {
       const max = Math.max(...values);
       let range = max - min;
 
+      const buffer = range * 0.05;
+      const newMin = min - buffer;
+      const newMax = max + buffer;
+      range = newMax - newMin;
+
       if (isChangeRate) {
-        const absMax = Math.max(Math.abs(min), Math.abs(max));
+        const absMax = Math.max(Math.abs(newMin), Math.abs(newMax));
         range = 2 * absMax;
       }
 
@@ -90,8 +95,8 @@ export default {
         axisMin = -Math.ceil(range / (2 * interval)) * interval;
         axisMax = -axisMin;
       } else {
-        axisMin = Math.floor(min / interval) * interval;
-        axisMax = Math.ceil(max / interval) * interval;
+        axisMin = Math.floor(newMin / interval) * interval;
+        axisMax = Math.ceil(newMax / interval) * interval;
       }
 
       return {
@@ -136,8 +141,8 @@ export default {
             min: priceRange.min,
             max: priceRange.max,
             interval: priceRange.interval,
-            axisLabel: { 
-              formatter: (value) => parseFloat(value.toFixed(3))
+            axisLabel: {
+              formatter: (value) => parseFloat(value.toFixed(3)),
             },
           },
           {
@@ -147,8 +152,8 @@ export default {
             min: changeRateRange.min,
             max: changeRateRange.max,
             interval: changeRateRange.interval,
-            axisLabel: { 
-              formatter: (value) => parseFloat(value.toFixed(3)) + '%'
+            axisLabel: {
+              formatter: (value) => parseFloat(value.toFixed(3)) + '%',
             },
           },
         ],

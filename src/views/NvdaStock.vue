@@ -12,9 +12,9 @@
             type="primary"
             icon="el-icon-back"
             @click="$router.push('/home')"
-            class="bg-blue-500 hover:bg-blue-600"
-            >返回首页</el-button
-          >
+            class="bg-blue-500 hover:bg-blue-600">
+            返回首页
+          </el-button>
         </div>
       </template>
       <div ref="stockChart" style="width: 100%; height: 575px"></div>
@@ -39,6 +39,7 @@ export default {
       prices: [],
     });
 
+    // Helper function to format date
     const formatDate = (timestamp) => {
       const date = new Date(timestamp);
       return date
@@ -50,6 +51,7 @@ export default {
         .replace(/\//g, '-');
     };
 
+    // Fetch stock data from the API
     const fetchStockData = async () => {
       try {
         const { data } = await axios.get(getApiUrl('/nvda-stocks'));
@@ -66,6 +68,7 @@ export default {
       }
     };
 
+    // Update the chart with new data
     const updateChart = () => {
       if (!chart.value) return;
 
@@ -93,7 +96,7 @@ export default {
           data: dates,
           boundaryGap: false,
           axisLabel: {
-            formatter: (value) => value.split(' ')[0], // 只显示日期部分
+            formatter: (value) => value.split(' ')[0], // Display only date part
             margin: 20,
           },
         },
@@ -107,7 +110,7 @@ export default {
           {
             name: 'K线图',
             type: 'candlestick',
-            data: prices, // 不再需要 reverse
+            data: prices,
             itemStyle: {
               color: '#ec0000',
               color0: '#00da3c',
@@ -120,6 +123,7 @@ export default {
       chart.value.setOption(option);
     };
 
+    // Initialize the chart on component mount
     onMounted(() => {
       chart.value = echarts.init(stockChart.value);
       fetchStockData();

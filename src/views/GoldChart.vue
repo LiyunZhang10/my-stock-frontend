@@ -74,8 +74,13 @@ export default {
       const max = Math.max(...values);
       let range = max - min;
 
+      const buffer = 0.05 * range;
+      const newMin = min - buffer;
+      const newMax = max + buffer;
+      range = newMax - newMin;
+
       if (isChangeRate) {
-        const absMax = Math.max(Math.abs(min), Math.abs(max));
+        const absMax = Math.max(Math.abs(newMin), Math.abs(newMax));
         range = 2 * absMax;
       }
 
@@ -89,8 +94,8 @@ export default {
         axisMin = -Math.ceil(range / (2 * interval)) * interval;
         axisMax = -axisMin;
       } else {
-        axisMin = Math.floor(min / interval) * interval;
-        axisMax = Math.ceil(max / interval) * interval;
+        axisMin = Math.floor(newMin / interval) * interval;
+        axisMax = Math.ceil(newMax / interval) * interval;
       }
 
       return {
