@@ -1,7 +1,7 @@
 <template>
   <el-container class="min-h-screen bg-gray-100 flex flex-col">
     <el-header class="bg-blue-500 text-white text-center py-8">
-      <h1 class="text-4xl font-bold">欢迎来到数据可视化平台</h1>
+      <h1 class="text-4xl font-bold">欢迎来到金融数据可视化平台</h1>
     </el-header>
     <el-main class="flex-grow p-8 md:p-12 flex items-center justify-center">
       <div class="w-full max-w-8xl">
