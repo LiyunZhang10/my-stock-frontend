@@ -82,7 +82,7 @@
 
 <script>
 import axios from 'axios';
-import { getLocalhostApiUrl, getPublicApiUrl } from '@/utils/api';
+import { getApiUrl } from '@/utils/api';
 
 export default {
   name: 'SgdcnycData',
@@ -157,8 +157,7 @@ export default {
       try {
         this.loading = true;
         this.error = null;
-      //  const response = await axios.get(getPublicApiUrl('latest-sgdcnyc-data'));
-        const response = await axios.get(getLocalhostApiUrl('latest-sgdcnyc-data'));
+        const response = await axios.get(getApiUrl('/latest-sgdcnyc-data'));
         if (Array.isArray(response.data) && response.data.length > 0) {
           this.rateData = response.data.map((item) => ({
             ...item,

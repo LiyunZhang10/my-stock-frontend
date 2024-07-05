@@ -27,7 +27,7 @@
 import { ref, onMounted, onUnmounted, reactive } from 'vue';
 import axios from 'axios';
 import * as echarts from 'echarts';
-import { getLocalhostApiUrl, getPublicApiUrl } from '@/utils/api'; 
+import { getApiUrl } from '@/utils/api'; 
 
 export default {
   name: 'GoldChart',
@@ -56,8 +56,7 @@ export default {
 
     const fetchGoldData = async () => {
       try {
-        // const { data } = await axios.get(getPublicApiUrl('latest-gold-data'));
-        const { data } = await axios.get(getPublicApiUrl('latest-gold-data'));
+        const { data } = await axios.get(getApiUrl('/latest-gold-data'));
         const reversedData = data.reverse();
         goldChartData.labels = reversedData.map((item) =>
           formatTimestamp(item.timestamp)

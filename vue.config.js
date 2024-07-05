@@ -13,6 +13,6 @@ module.exports = defineConfig({
   },
   devServer: {
     port: 8083,
-   // allowedHosts: 'all',
+    allowedHosts: 'all',
   },
 })
