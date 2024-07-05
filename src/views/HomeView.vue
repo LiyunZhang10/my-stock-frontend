@@ -32,8 +32,13 @@
         </el-row>
       </div>
     </el-main>
-    <el-footer class="text-center text-gray-500 text-base p-6">
-      这是一个用于展示各种金融数据的数据可视化平台。
+    <el-footer
+      class="text-center text-gray-500 text-base p-6 flex items-center justify-center">
+      <img
+        src="@/assets/financialData.png"
+        alt="Financial Data Icon"
+        class="h-8 mr-2" />
+      <span>这是一个用于展示各种金融数据的数据可视化平台。</span>
     </el-footer>
   </el-container>
 </template>

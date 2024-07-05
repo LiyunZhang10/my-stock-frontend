@@ -21,6 +21,7 @@
     </el-card>
   </div>
 </template>
+
 <script>
 import { ref, onMounted, onUnmounted, reactive } from 'vue';
 import axios from 'axios';
@@ -69,22 +70,34 @@ export default {
       }
     };
 
-    const calculateAxisRange = (values, minBase, maxBase, desiredTicks = 5) => {
+    const calculateAxisRange = (values, isChangeRate = false) => {
       const min = Math.min(...values);
       const max = Math.max(...values);
-      const range = max - min;
+      let range = max - min;
 
-      let interval = range / (desiredTicks - 1);
+      if (isChangeRate) {
+        const absMax = Math.max(Math.abs(min), Math.abs(max));
+        range = 2 * absMax;
+      }
+
+      let interval = range / 10;
       const magnitude = Math.pow(10, Math.floor(Math.log10(interval)));
-      interval = Math.ceil(interval / magnitude) * magnitude;
+      interval = Math.ceil(interval / (magnitude / 10)) * (magnitude / 10);
+      interval = Math.max(interval, 0.001);
 
-      const axisMin = Math.floor(min / interval) * interval;
-      const axisMax = Math.ceil(max / interval) * interval;
+      let axisMin, axisMax;
+      if (isChangeRate) {
+        axisMin = -Math.ceil(range / (2 * interval)) * interval;
+        axisMax = -axisMin;
+      } else {
+        axisMin = Math.floor(min / interval) * interval;
+        axisMax = Math.ceil(max / interval) * interval;
+      }
 
       return {
-        min: Math.max(minBase, axisMin),
-        max: Math.min(maxBase, axisMax),
-        interval: interval,
+        min: parseFloat(axisMin.toFixed(3)),
+        max: parseFloat(axisMax.toFixed(3)),
+        interval: parseFloat(interval.toFixed(3)),
       };
     };
 
@@ -92,13 +105,8 @@ export default {
       if (!chart.value) return;
 
       const { prices, changeRates, dates } = usdchnChartData;
-      const priceRange = calculateAxisRange(prices, 6, 9, 5);
-      const changeRateRange = calculateAxisRange(
-        changeRates,
-        -Infinity,
-        Infinity,
-        5
-      );
+      const priceRange = calculateAxisRange(prices);
+      const changeRateRange = calculateAxisRange(changeRates, true);
 
       const option = {
         title: {
@@ -111,7 +119,7 @@ export default {
           axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } },
         },
         legend: { data: ['汇率', '涨跌幅'], top: 30 },
-        grid: { left: '3%', right: '3%', bottom: '3%', containLabel: true },
+        grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
         xAxis: {
           type: 'category',
           boundaryGap: false,
@@ -128,7 +136,9 @@ export default {
             min: priceRange.min,
             max: priceRange.max,
             interval: priceRange.interval,
-            axisLabel: { formatter: '{value}' },
+            axisLabel: { 
+              formatter: (value) => parseFloat(value.toFixed(3))
+            },
           },
           {
             type: 'value',
@@ -137,7 +147,9 @@ export default {
             min: changeRateRange.min,
             max: changeRateRange.max,
             interval: changeRateRange.interval,
-            axisLabel: { formatter: '{value}%' },
+            axisLabel: { 
+              formatter: (value) => parseFloat(value.toFixed(3)) + '%'
+            },
           },
         ],
         series: [
@@ -150,6 +162,10 @@ export default {
             symbol: 'none',
             lineStyle: { width: 2, color: '#5470C6' },
             itemStyle: { color: '#5470C6' },
+            markLine: {
+              silent: true,
+              data: [{ type: 'average', name: '平均值' }],
+            },
           },
           {
             name: '涨跌幅',
@@ -160,6 +176,10 @@ export default {
             symbol: 'none',
             lineStyle: { width: 2, color: '#91CC75' },
             itemStyle: { color: '#91CC75' },
+            markLine: {
+              silent: true,
+              data: [{ type: 'average', name: '平均值' }],
+            },
           },
         ],
       };

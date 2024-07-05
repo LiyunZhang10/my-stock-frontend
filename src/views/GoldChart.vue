@@ -27,7 +27,7 @@
 import { ref, onMounted, onUnmounted, reactive } from 'vue';
 import axios from 'axios';
 import * as echarts from 'echarts';
-import { getApiUrl } from '@/utils/api'; 
+import { getApiUrl } from '@/utils/api';
 
 export default {
   name: 'GoldChart',
@@ -69,13 +69,34 @@ export default {
       }
     };
 
-    const calculateAxisRange = (values, minBase, maxBase) => {
+    const calculateAxisRange = (values, isChangeRate = false) => {
       const min = Math.min(...values);
       const max = Math.max(...values);
-      const padding = (max - min) * 0.1;
+      let range = max - min;
+
+      if (isChangeRate) {
+        const absMax = Math.max(Math.abs(min), Math.abs(max));
+        range = 2 * absMax;
+      }
+
+      let interval = range / 10;
+      const magnitude = Math.pow(10, Math.floor(Math.log10(interval)));
+      interval = Math.ceil(interval / (magnitude / 10)) * (magnitude / 10);
+      interval = Math.max(interval, 0.001);
+
+      let axisMin, axisMax;
+      if (isChangeRate) {
+        axisMin = -Math.ceil(range / (2 * interval)) * interval;
+        axisMax = -axisMin;
+      } else {
+        axisMin = Math.floor(min / interval) * interval;
+        axisMax = Math.ceil(max / interval) * interval;
+      }
+
       return {
-        min: Math.max(minBase, Math.floor((min - padding) * 2) / 2),
-        max: Math.min(maxBase, Math.ceil((max + padding) * 2) / 2),
+        min: parseFloat(axisMin.toFixed(3)),
+        max: parseFloat(axisMax.toFixed(3)),
+        interval: parseFloat(interval.toFixed(3)),
       };
     };
 
@@ -83,12 +104,8 @@ export default {
       if (!chart.value) return;
 
       const { labels, prices, changeRates } = goldChartData;
-      const priceRange = calculateAxisRange(prices, 0, Infinity);
-      const changeRateRange = calculateAxisRange(
-        changeRates,
-        -Infinity,
-        Infinity
-      );
+      const priceRange = calculateAxisRange(prices);
+      const changeRateRange = calculateAxisRange(changeRates, true);
 
       const option = {
         title: {
@@ -120,7 +137,10 @@ export default {
             position: 'left',
             min: priceRange.min,
             max: priceRange.max,
-            axisLabel: { formatter: '{value}' },
+            interval: priceRange.interval,
+            axisLabel: { 
+              formatter: (value) => parseFloat(value.toFixed(3))
+            },
           },
           {
             type: 'value',
@@ -128,7 +148,10 @@ export default {
             position: 'right',
             min: changeRateRange.min,
             max: changeRateRange.max,
-            axisLabel: { formatter: '{value}%' },
+            interval: changeRateRange.interval,
+            axisLabel: { 
+              formatter: (value) => parseFloat(value.toFixed(3)) + '%'
+            },
           },
         ],
         series: [
