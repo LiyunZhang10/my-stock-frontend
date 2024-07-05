@@ -202,7 +202,7 @@ export default {
     onMounted(() => {
       chart.value = echarts.init(goldChart.value);
       fetchGoldData();
-      timer = setInterval(fetchGoldData, 60000); // 每分钟刷新一次
+      timer = setInterval(fetchGoldData, 60000);
     });
 
     onUnmounted(() => {
