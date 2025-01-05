@@ -33,6 +33,16 @@ const routes = [
     name: 'SgdcnycData',
     component: () => import('../views/SgdcnycData.vue')
   },
+  {
+    path: '/predict',
+    name: 'Predict',
+    component: () => import('../views/Predict.vue')
+  },
+  {
+    path: '/ms',
+    name: 'Ms',
+    component: () => import('../views/Ms.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -73,6 +73,18 @@ export default {
           buttonText: '点击以查看',
           route: 'NvdaStock',
         },
+        {
+          title: '谷歌',
+          description: 'google',
+          buttonText: '点击以查看',
+          route: 'Predict',
+        },
+        {
+          title: '微软',
+          description: 'ms',
+          buttonText: '点击以查看',
+          route: 'Ms',
+        },
       ],
     };
   },
